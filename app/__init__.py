@@ -26,6 +26,7 @@ def create_app(test_config=None):
     # Import models here for Alembic setup
     from app.models.exercise import Exercise
     from app.models.food import Food
+    from app.models.med import Med
     from app.models.saved_exercises import SavedExercise
     from app.models.saved_recipes import SavedRecipe
     from app.models.user import User
@@ -53,6 +54,9 @@ def create_app(test_config=None):
 
     from .routes.weight_routes import weight_bp
     app.register_blueprint(weight_bp)
+
+    from .routes.med_routes import med_bp
+    app.register_blueprint(med_bp)
 
     CORS(app)
 

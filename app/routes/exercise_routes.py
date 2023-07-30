@@ -5,3 +5,6 @@ exercise_bp = Blueprint("exercise", __name__, url_prefix="/users/<user_id>/exerc
 @exercise_bp.route("", methods=["GET"])
 def index():
     return "Hello, Exercise!"
+
+# https://api-ninjas.com/api/exercises
+# https://api-ninjas.com/api/caloriesburned
