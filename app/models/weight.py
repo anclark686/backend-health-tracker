@@ -5,8 +5,7 @@ class Weight(db.Model):
     weight_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     weight_in_lbs = db.Column(db.Float)
     weight_in_kg = db.Column(db.Float)
-    date = db.Column(db.Date)
-
+    date = db.Column(db.String(100))
 
     user = db.relationship("User", back_populates="weights")
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
@@ -14,3 +13,10 @@ class Weight(db.Model):
     def convert_to_kg(self):
         self.weight_in_kg = round(self.weight_in_lbs / 2.205, 2)
         return self.weight_in_kg
+    
+    @classmethod
+    def from_dict(cls, user_id, data):
+        pass
+
+    def to_dict(self):
+        pass

@@ -1,8 +1,8 @@
-"""Initial migration.
+"""initial migration
 
-Revision ID: b9dd450ac53b
+Revision ID: dda3ac06f008
 Revises: 
-Create Date: 2023-07-29 18:21:45.670039
+Create Date: 2023-08-06 18:00:08.961481
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b9dd450ac53b'
+revision = 'dda3ac06f008'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,14 +21,15 @@ def upgrade():
     op.create_table('user',
     sa.Column('user_id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('uid', sa.String(length=50), nullable=False),
+    sa.Column('name', sa.String(length=500), nullable=True),
+    sa.Column('birthday', sa.String(length=100), nullable=True),
     sa.Column('age', sa.Integer(), nullable=True),
-    sa.Column('birthday', sa.Date(), nullable=True),
     sa.Column('sex', sa.String(length=50), nullable=True),
+    sa.Column('height', sa.Integer(), nullable=True),
     sa.Column('current_weight', sa.Float(), nullable=True),
     sa.Column('goal_weight', sa.Float(), nullable=True),
     sa.Column('bmi', sa.Float(), nullable=True),
-    sa.Column('est_water_intake_low', sa.Float(), nullable=True),
-    sa.Column('est_water_intake_high', sa.Float(), nullable=True),
+    sa.Column('est_water_intake', sa.Float(), nullable=True),
     sa.Column('est_base_calories', sa.Integer(), nullable=True),
     sa.Column('est_goal_calories', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('user_id'),
@@ -39,7 +40,7 @@ def upgrade():
     sa.Column('exercise_name', sa.String(length=500), nullable=True),
     sa.Column('category', sa.String(length=100), nullable=True),
     sa.Column('calories_burned', sa.Float(), nullable=True),
-    sa.Column('date', sa.Date(), nullable=True),
+    sa.Column('date', sa.String(length=100), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.user_id'], ),
     sa.PrimaryKeyConstraint('exercise_id')
@@ -50,10 +51,21 @@ def upgrade():
     sa.Column('meal', sa.String(length=100), nullable=True),
     sa.Column('amount', sa.String(length=500), nullable=True),
     sa.Column('calories', sa.Float(), nullable=True),
-    sa.Column('date', sa.Date(), nullable=True),
+    sa.Column('date', sa.String(length=100), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.user_id'], ),
     sa.PrimaryKeyConstraint('food_id')
+    )
+    op.create_table('med',
+    sa.Column('med_id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('med_name', sa.String(length=500), nullable=True),
+    sa.Column('time_needed', sa.String(length=100), nullable=True),
+    sa.Column('last_taken', sa.DateTime(), nullable=True),
+    sa.Column('quantity', sa.Integer(), nullable=True),
+    sa.Column('date', sa.String(length=100), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user.user_id'], ),
+    sa.PrimaryKeyConstraint('med_id')
     )
     op.create_table('saved_exercise',
     sa.Column('saved_exercise_id', sa.Integer(), autoincrement=True, nullable=False),
@@ -77,7 +89,7 @@ def upgrade():
     op.create_table('water',
     sa.Column('water_id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('amount', sa.Float(), nullable=True),
-    sa.Column('date', sa.Date(), nullable=True),
+    sa.Column('date', sa.String(length=100), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.user_id'], ),
     sa.PrimaryKeyConstraint('water_id')
@@ -86,7 +98,7 @@ def upgrade():
     sa.Column('weight_id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('weight_in_lbs', sa.Float(), nullable=True),
     sa.Column('weight_in_kg', sa.Float(), nullable=True),
-    sa.Column('date', sa.Date(), nullable=True),
+    sa.Column('date', sa.String(length=100), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.user_id'], ),
     sa.PrimaryKeyConstraint('weight_id')
@@ -100,6 +112,7 @@ def downgrade():
     op.drop_table('water')
     op.drop_table('saved_recipe')
     op.drop_table('saved_exercise')
+    op.drop_table('med')
     op.drop_table('food')
     op.drop_table('exercise')
     op.drop_table('user')

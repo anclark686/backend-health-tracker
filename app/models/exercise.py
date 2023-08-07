@@ -6,7 +6,14 @@ class Exercise(db.Model):
     exercise_name = db.Column(db.String(500))
     category = db.Column(db.String(100))
     calories_burned = db.Column(db.Float)
-    date = db.Column(db.Date)
+    date = db.Column(db.String(100))
 
     user = db.relationship("User", back_populates="exercises")
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+
+    @classmethod
+    def from_dict(cls, user_id, data):
+        pass
+
+    def to_dict(self):
+        pass

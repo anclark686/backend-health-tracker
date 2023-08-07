@@ -9,3 +9,10 @@ class SavedExercise(db.Model):
 
     user = db.relationship("User", back_populates="saved_exercises")
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+
+    @classmethod
+    def from_dict(cls, user_id, data):
+        pass
+
+    def to_dict(self):
+        pass

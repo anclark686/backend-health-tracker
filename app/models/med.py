@@ -7,6 +7,14 @@ class Med(db.Model):
     time_needed = db.Column(db.String(100))
     last_taken = db.Column(db.DateTime)
     quantity = db.Column(db.Integer)
+    date = db.Column(db.String(100))
 
     user = db.relationship("User", back_populates="meds")
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+
+    @classmethod
+    def from_dict(cls, user_id, data):
+        pass
+
+    def to_dict(self):
+        pass
